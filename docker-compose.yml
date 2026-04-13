@@ -1,6 +1,4 @@
 # docker-compose.yml
-version: '3.9'
-
 services:
   # ─── Databases ───────────────────────────────────────────────────────────────
 
@@ -74,8 +72,8 @@ services:
 
   migrate:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: shop_migrate
     command: >
       sh -c "npx prisma migrate deploy && node src/config/seed.js"
@@ -90,8 +88,8 @@ services:
 
   backend1:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: shop_backend1
     restart: unless-stopped
     environment: &backend_env
@@ -117,8 +115,8 @@ services:
 
   backend2:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: shop_backend2
     restart: unless-stopped
     environment:
@@ -136,8 +134,8 @@ services:
 
   backend3:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: shop_backend3
     restart: unless-stopped
     environment:
