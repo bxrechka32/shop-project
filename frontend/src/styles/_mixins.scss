@@ -1,0 +1,123 @@
+// frontend/src/styles/_mixins.scss
+@use 'variables' as *;
+
+// Button mixin
+@mixin button($variant: 'primary', $size: 'md') {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  font-family: $font-body;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-base;
+  text-decoration: none;
+  white-space: nowrap;
+
+  @if $size == 'sm' {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: $radius-sm;
+  } @else if $size == 'lg' {
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: $radius-md;
+  } @else {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: $radius-md;
+  }
+
+  @if $variant == 'primary' {
+    background: $primary-color;
+    color: #fff;
+    &:hover { background: $primary-dark; transform: translateY(-1px); box-shadow: $shadow-glow; }
+    &:active { transform: translateY(0); }
+  } @else if $variant == 'accent' {
+    background: $accent-color;
+    color: #fff;
+    &:hover { background: $accent-dark; transform: translateY(-1px); box-shadow: $shadow-glow-accent; }
+  } @else if $variant == 'ghost' {
+    background: transparent;
+    color: $text-secondary;
+    border: 1px solid $border-color;
+    &:hover { border-color: $primary-color; color: $primary-color; background: rgba($primary-color, 0.05); }
+  } @else if $variant == 'danger' {
+    background: rgba($error, 0.15);
+    color: $error;
+    border: 1px solid rgba($error, 0.3);
+    &:hover { background: $error; color: #fff; }
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+}
+
+// Card mixin
+@mixin card($elevated: false) {
+  background: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  @if $elevated {
+    box-shadow: $shadow-md;
+  }
+  transition: border-color $transition-base, box-shadow $transition-base, transform $transition-base;
+  &:hover {
+    border-color: $border-light;
+    box-shadow: $shadow-lg;
+  }
+}
+
+// Input mixin
+@mixin input {
+  width: 100%;
+  background: $bg-elevated;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  color: $text-primary;
+  font-family: $font-body;
+  font-size: 14px;
+  padding: 10px 14px;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  outline: none;
+
+  &::placeholder { color: $text-muted; }
+
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+  }
+}
+
+// Responsive mixin
+@mixin respond-to($bp) {
+  @if $bp == 'sm' { @media (max-width: #{$bp-sm}) { @content; } }
+  @else if $bp == 'md' { @media (max-width: #{$bp-md}) { @content; } }
+  @else if $bp == 'lg' { @media (max-width: #{$bp-lg}) { @content; } }
+  @else if $bp == 'xl' { @media (max-width: #{$bp-xl}) { @content; } }
+}
+
+// Flex helpers
+@mixin flex-center { display: flex; align-items: center; justify-content: center; }
+@mixin flex-between { display: flex; align-items: center; justify-content: space-between; }
+
+// Text truncate
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  } @else {
+    display: -webkit-box; -webkit-line-clamp: $lines; -webkit-box-orient: vertical; overflow: hidden;
+  }
+}
+
+// Scrollbar styling
+@mixin scrollbar {
+  &::-webkit-scrollbar { width: 6px; height: 6px; }
+  &::-webkit-scrollbar-track { background: $bg-secondary; }
+  &::-webkit-scrollbar-thumb { background: $border-light; border-radius: $radius-full; }
+  &::-webkit-scrollbar-thumb:hover { background: $text-muted; }
+}

@@ -1,0 +1,110 @@
+// frontend/src/components/Layout/Layout.module.scss
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba($bg-secondary, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid $border-color;
+  height: 68px;
+}
+
+.headerInner {
+  @include flex-between;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $font-display;
+  font-size: 20px;
+  font-weight: 800;
+  color: $text-primary;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+
+  &:hover { color: $primary-color; }
+}
+
+.logoIcon {
+  font-size: 22px;
+  color: $primary-color;
+  line-height: 1;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @include respond-to('md') { display: none; }
+}
+
+.navLink {
+  padding: 6px 14px;
+  border-radius: $radius-md;
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-secondary;
+  transition: all $transition-fast;
+  text-decoration: none;
+
+  &:hover { color: $text-primary; background: rgba(255,255,255,0.05); }
+  &.active { color: $primary-color; background: rgba($primary-color, 0.1); }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: $radius-md;
+  text-decoration: none;
+  transition: background $transition-fast;
+
+  &:hover { background: rgba(255,255,255,0.05); }
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-secondary;
+}
+
+.logoutBtn {
+  @include button('ghost', 'sm');
+}
+
+.registerBtn {
+  @include button('primary', 'sm');
+}
+
+.main {
+  flex: 1;
+  padding: $spacing-2xl 0;
+}
+
+.footer {
+  border-top: 1px solid $border-color;
+  padding: $spacing-lg 0;
+  text-align: center;
+  color: $text-muted;
+  font-size: 13px;
+}

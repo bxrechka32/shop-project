@@ -1,0 +1,64 @@
+// frontend/src/pages/ProfilePage.module.scss
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page { max-width: 680px; }
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: $spacing-xl;
+}
+
+.card {
+  @include card(true);
+  display: flex;
+  align-items: center;
+  gap: $spacing-xl;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-xl;
+}
+
+.avatar {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, $primary-color, $primary-dark);
+  border-radius: $radius-full;
+  @include flex-center;
+  font-family: $font-display;
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.info { display: flex; flex-direction: column; gap: 6px; }
+
+.name { font-family: $font-display; font-size: 22px; font-weight: 700; }
+
+.email { font-size: 14px; color: $text-muted; }
+
+.section { margin-bottom: $spacing-xl; }
+
+.sectionTitle {
+  font-family: $font-display;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: $spacing-md;
+}
+
+.pushCard {
+  @include card;
+  padding: $spacing-lg;
+  @include flex-between;
+  gap: $spacing-md;
+}
+
+.pushDesc { font-size: 14px; color: $text-secondary; margin-bottom: 4px; }
+
+.pushStatus { font-size: 13px; color: $text-muted; }
+
+.granted { color: $success; }
+.denied  { color: $error; }
+
+.pushBtn { @include button('primary'); }

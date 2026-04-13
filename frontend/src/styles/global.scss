@@ -1,0 +1,115 @@
+// frontend/src/styles/global.scss
+@use 'variables' as *;
+@use 'mixins' as *;
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: $font-body;
+  background-color: $bg-primary;
+  color: $text-primary;
+  line-height: 1.6;
+  min-height: 100vh;
+  @include scrollbar;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-display;
+  font-weight: 700;
+  line-height: 1.2;
+  color: $text-primary;
+}
+
+a { color: $primary-color; text-decoration: none; transition: color $transition-fast; }
+a:hover { color: $primary-light; }
+
+img { max-width: 100%; display: block; }
+
+button { font-family: $font-body; }
+
+input, textarea, select { font-family: $font-body; }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+  @include respond-to('md') { padding: 0 $spacing-md; }
+}
+
+.page { min-height: calc(100vh - 80px); padding: $spacing-2xl 0; }
+
+// Loading spinner
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid $border-color;
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: $spacing-2xl auto;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// Badge
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px;
+  border-radius: $radius-full;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &--admin { background: rgba($accent-color, 0.15); color: $accent-color; }
+  &--seller { background: rgba($warning, 0.15); color: $warning; }
+  &--user { background: rgba($primary-color, 0.15); color: $primary-color; }
+  &--success { background: rgba($success, 0.15); color: $success; }
+  &--error { background: rgba($error, 0.15); color: $error; }
+}
+
+// Toast notifications container
+.toasts {
+  position: fixed;
+  bottom: $spacing-lg;
+  right: $spacing-lg;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.toast {
+  background: $bg-elevated;
+  border: 1px solid $border-light;
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-lg;
+  font-size: 14px;
+  max-width: 320px;
+  animation: slideIn 0.3s ease;
+  box-shadow: $shadow-lg;
+
+  &--success { border-left: 3px solid $success; }
+  &--error { border-left: 3px solid $error; }
+  &--info { border-left: 3px solid $primary-color; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(110%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+// Empty state
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-3xl;
+  color: $text-muted;
+  text-align: center;
+
+  &__icon { font-size: 48px; opacity: 0.4; }
+  &__title { font-family: $font-display; font-size: 20px; color: $text-secondary; }
+  &__text { font-size: 14px; max-width: 300px; }
+}

@@ -1,0 +1,63 @@
+// frontend/src/styles/_variables.scss
+
+// Colors
+$primary-color: #4285f4;
+$primary-dark: #2c6be0;
+$primary-light: #7eb3ff;
+$accent-color: #ff6b35;
+$accent-dark: #e5542a;
+
+$bg-primary: #0d0f14;
+$bg-secondary: #141720;
+$bg-card: #1a1e2a;
+$bg-elevated: #222636;
+
+$text-primary: #f0f2ff;
+$text-secondary: #9aa0bc;
+$text-muted: #5c6280;
+
+$border-color: #2a2f42;
+$border-light: #343a50;
+
+$success: #22c55e;
+$warning: #f59e0b;
+$error: #ef4444;
+$info: #3b82f6;
+
+// Typography
+$font-display: 'Syne', sans-serif;
+$font-body: 'DM Sans', sans-serif;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+// Border radius
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-lg: 20px;
+$radius-xl: 28px;
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+$shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+$shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+$shadow-glow: 0 0 20px rgba(66, 133, 244, 0.25);
+$shadow-glow-accent: 0 0 20px rgba(255, 107, 53, 0.25);
+
+// Transitions
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;
+$transition-slow: 0.4s ease;
+
+// Breakpoints
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;

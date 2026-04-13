@@ -1,0 +1,114 @@
+// frontend/src/components/ProductCard/ProductCard.module.scss
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.card {
+  @include card(true);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform $transition-base, box-shadow $transition-base, border-color $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg, 0 0 40px rgba($primary-color, 0.08);
+    border-color: rgba($primary-color, 0.3);
+
+    .image { transform: scale(1.04); }
+    .imageOverlay { opacity: 0.4; }
+  }
+}
+
+.imageWrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: $bg-elevated;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $transition-slow;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, $bg-card 0%, transparent 60%);
+  opacity: 0.6;
+  transition: opacity $transition-base;
+}
+
+.priceBadge {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  background: rgba($bg-primary, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid $border-color;
+  color: $primary-light;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 5px 12px;
+  border-radius: $radius-full;
+}
+
+.body {
+  padding: $spacing-md $spacing-md $spacing-sm;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.name {
+  font-family: $font-display;
+  font-size: 16px;
+  font-weight: 700;
+  color: $text-primary;
+  @include truncate(2);
+}
+
+.description {
+  font-size: 13px;
+  color: $text-secondary;
+  line-height: 1.5;
+  @include truncate(2);
+  flex: 1;
+}
+
+.seller {
+  font-size: 12px;
+  color: $text-muted;
+  margin-top: auto;
+}
+
+.sellerLabel {
+  margin-right: 4px;
+  color: $text-muted;
+}
+
+.footer {
+  padding: $spacing-sm $spacing-md $spacing-md;
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.cartBtn {
+  @include button('primary', 'sm');
+  flex: 1;
+}
+
+.editBtn {
+  @include button('ghost', 'sm');
+  padding: 8px 10px;
+}
+
+.deleteBtn {
+  @include button('danger', 'sm');
+  padding: 8px 10px;
+}

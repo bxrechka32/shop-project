@@ -1,0 +1,104 @@
+// frontend/src/pages/AuthPage.module.scss
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.wrap {
+  @include flex-center;
+  min-height: calc(100vh - 200px);
+  padding: $spacing-xl 0;
+}
+
+.card {
+  background: $bg-card;
+  border: 1px solid $border-color;
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: $shadow-lg;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+}
+
+.logoMark {
+  font-size: 36px;
+  color: $primary-color;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.sub {
+  font-size: 14px;
+  color: $text-muted;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-secondary;
+}
+
+.input {
+  @include input;
+}
+
+.submitBtn {
+  @include button('primary', 'lg');
+  width: 100%;
+  margin-top: $spacing-sm;
+}
+
+.hint {
+  margin-top: $spacing-lg;
+  padding: $spacing-md;
+  background: $bg-elevated;
+  border-radius: $radius-md;
+  font-size: 12px;
+  color: $text-muted;
+  line-height: 1.8;
+
+  code {
+    color: $primary-light;
+    font-size: 11px;
+  }
+}
+
+.hintText {
+  font-weight: 600;
+  color: $text-secondary;
+  margin-bottom: 4px;
+}
+
+.footer {
+  margin-top: $spacing-lg;
+  text-align: center;
+  font-size: 14px;
+  color: $text-muted;
+}

@@ -1,0 +1,77 @@
+// frontend/src/pages/ProductsPage.module.scss
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.page { padding-bottom: $spacing-3xl; }
+
+.hero {
+  margin-bottom: $spacing-2xl;
+  padding-bottom: $spacing-xl;
+  border-bottom: 1px solid $border-color;
+}
+
+.heroTitle {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.accent { color: $primary-color; }
+
+.heroSub {
+  font-size: 15px;
+  color: $text-muted;
+}
+
+.toolbar {
+  @include flex-between;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-muted;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.search {
+  @include input;
+  padding-left: 42px;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.cartIndicator {
+  @include button('ghost', 'sm');
+  font-size: 14px;
+}
+
+.addBtn {
+  @include button('accent');
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: $spacing-lg;
+
+  @include respond-to('sm') { grid-template-columns: 1fr; }
+}
