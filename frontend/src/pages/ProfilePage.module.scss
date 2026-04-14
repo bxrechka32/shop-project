@@ -2,13 +2,17 @@
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
-.page { max-width: 680px; }
+.page {
+  max-width: 680px;
+  @include fade-in;
+}
 
 .title {
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: $spacing-xl;
+  @include gradient-text;
 }
 
 .card {
@@ -18,10 +22,25 @@
   gap: $spacing-xl;
   padding: $spacing-xl;
   margin-bottom: $spacing-xl;
+  position: relative;
+  overflow: hidden;
+  @include fade-in(0.1s);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba($primary-color, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
 }
 
 .avatar {
-  width: 72px; height: 72px;
+  width: 72px;
+  height: 72px;
   background: linear-gradient(135deg, $primary-color, $primary-dark);
   border-radius: $radius-full;
   @include flex-center;
@@ -30,15 +49,41 @@
   font-weight: 800;
   color: #fff;
   flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 0 0 3px rgba($primary-color, 0.2), 0 4px 20px rgba($primary-color, 0.25);
+  animation: avatarPulse 3s ease-in-out infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: $radius-full;
+    border: 2px solid transparent;
+    border-top-color: rgba($primary-color, 0.4);
+    border-right-color: rgba($accent-color, 0.3);
+    animation: spin 6s linear infinite;
+  }
+}
+
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba($primary-color, 0.2), 0 4px 20px rgba($primary-color, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba($primary-color, 0.1), 0 4px 30px rgba($primary-color, 0.35); }
 }
 
 .info { display: flex; flex-direction: column; gap: 6px; }
 
-.name { font-family: $font-display; font-size: 22px; font-weight: 700; }
+.name {
+  font-family: $font-display;
+  font-size: 22px;
+  font-weight: 700;
+}
 
 .email { font-size: 14px; color: $text-muted; }
 
-.section { margin-bottom: $spacing-xl; }
+.section {
+  margin-bottom: $spacing-xl;
+  @include fade-in(0.2s);
+}
 
 .sectionTitle {
   font-family: $font-display;
@@ -52,13 +97,14 @@
   padding: $spacing-lg;
   @include flex-between;
   gap: $spacing-md;
+  @include glass;
 }
 
 .pushDesc { font-size: 14px; color: $text-secondary; margin-bottom: 4px; }
 
 .pushStatus { font-size: 13px; color: $text-muted; }
 
-.granted { color: $success; }
+.granted { color: $success; text-shadow: 0 0 10px rgba($success, 0.3); }
 .denied  { color: $error; }
 
 .pushBtn { @include button('primary'); }

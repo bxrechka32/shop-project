@@ -6,16 +6,47 @@
   @include flex-center;
   min-height: calc(100vh - 200px);
   padding: $spacing-xl 0;
+  position: relative;
+
+  // Ambient glow background
+  &::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba($primary-color, 0.12) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
 }
 
 .card {
-  background: $bg-card;
-  border: 1px solid $border-color;
+  @include glass;
   border-radius: $radius-xl;
   padding: $spacing-2xl;
   width: 100%;
   max-width: 420px;
-  box-shadow: $shadow-lg;
+  box-shadow: $shadow-lg, 0 0 80px rgba($primary-color, 0.06);
+  position: relative;
+  @include fade-in;
+
+  // Animated gradient border
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: $radius-xl;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba($primary-color, 0.3), transparent 40%, transparent 60%, rgba($accent-color, 0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }
 
 .cardHeader {
@@ -27,6 +58,8 @@
   font-size: 36px;
   color: $primary-color;
   margin-bottom: $spacing-md;
+  filter: drop-shadow(0 0 16px rgba($primary-color, 0.4));
+  animation: float 4s ease-in-out infinite;
 }
 
 .title {
@@ -34,6 +67,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 6px;
+  @include gradient-text;
 }
 
 .sub {
@@ -45,6 +79,15 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
+
+  // Staggered field entrance
+  > * {
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) #{0.1 + $i * 0.05}s both;
+      }
+    }
+  }
 }
 
 .row {
@@ -67,6 +110,7 @@
 
 .input {
   @include input;
+  background: rgba($bg-elevated, 0.5);
 }
 
 .submitBtn {
@@ -78,11 +122,13 @@
 .hint {
   margin-top: $spacing-lg;
   padding: $spacing-md;
-  background: $bg-elevated;
+  background: rgba($bg-elevated, 0.5);
+  border: 1px solid rgba($border-color, 0.5);
   border-radius: $radius-md;
   font-size: 12px;
   color: $text-muted;
   line-height: 1.8;
+  backdrop-filter: blur(8px);
 
   code {
     color: $primary-light;

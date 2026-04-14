@@ -2,6 +2,8 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Syne:wght@600;700;800&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -13,6 +15,8 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   @include scrollbar;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,6 +35,11 @@ button { font-family: $font-body; }
 
 input, textarea, select { font-family: $font-body; }
 
+::selection {
+  background: rgba($primary-color, 0.3);
+  color: $text-primary;
+}
+
 .container {
   max-width: 1280px;
   margin: 0 auto;
@@ -40,17 +49,38 @@ input, textarea, select { font-family: $font-body; }
 
 .page { min-height: calc(100vh - 80px); padding: $spacing-2xl 0; }
 
-// Loading spinner
+// Loading spinner — dual ring
 .spinner {
-  width: 40px; height: 40px;
-  border: 3px solid $border-color;
-  border-top-color: $primary-color;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  width: 44px; height: 44px;
+  position: relative;
   margin: $spacing-2xl auto;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+  &::before {
+    border-top-color: $primary-color;
+    border-right-color: $primary-color;
+  }
+  &::after {
+    border-bottom-color: $accent-color;
+    border-left-color: $accent-color;
+    animation-delay: -0.3s;
+    animation-direction: reverse;
+  }
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+// Skeleton loading
+.skeleton {
+  @include shimmer;
+  color: transparent !important;
+  user-select: none;
+}
 
 // Badge
 .badge {
@@ -62,9 +92,9 @@ input, textarea, select { font-family: $font-body; }
   text-transform: uppercase;
   letter-spacing: 0.05em;
 
-  &--admin { background: rgba($accent-color, 0.15); color: $accent-color; }
-  &--seller { background: rgba($warning, 0.15); color: $warning; }
-  &--user { background: rgba($primary-color, 0.15); color: $primary-color; }
+  &--admin { background: rgba($accent-color, 0.15); color: $accent-color; border: 1px solid rgba($accent-color, 0.2); }
+  &--seller { background: rgba($warning, 0.15); color: $warning; border: 1px solid rgba($warning, 0.2); }
+  &--user { background: rgba($primary-color, 0.15); color: $primary-color; border: 1px solid rgba($primary-color, 0.2); }
   &--success { background: rgba($success, 0.15); color: $success; }
   &--error { background: rgba($error, 0.15); color: $error; }
 }
@@ -81,23 +111,17 @@ input, textarea, select { font-family: $font-body; }
 }
 
 .toast {
-  background: $bg-elevated;
-  border: 1px solid $border-light;
+  @include glass;
   border-radius: $radius-md;
   padding: $spacing-md $spacing-lg;
   font-size: 14px;
-  max-width: 320px;
-  animation: slideIn 0.3s ease;
+  max-width: 340px;
+  animation: toastIn 0.4s $transition-spring;
   box-shadow: $shadow-lg;
 
   &--success { border-left: 3px solid $success; }
   &--error { border-left: 3px solid $error; }
   &--info { border-left: 3px solid $primary-color; }
-}
-
-@keyframes slideIn {
-  from { transform: translateX(110%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
 }
 
 // Empty state
@@ -108,8 +132,54 @@ input, textarea, select { font-family: $font-body; }
   padding: $spacing-3xl;
   color: $text-muted;
   text-align: center;
+  @include fade-in;
 
-  &__icon { font-size: 48px; opacity: 0.4; }
-  &__title { font-family: $font-display; font-size: 20px; color: $text-secondary; }
-  &__text { font-size: 14px; max-width: 300px; }
+  &__icon { font-size: 56px; opacity: 0.3; animation: float 4s ease-in-out infinite; }
+  &__title { font-family: $font-display; font-size: 22px; color: $text-secondary; }
+  &__text { font-size: 14px; max-width: 340px; line-height: 1.7; }
+}
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba($primary-color, 0.2); }
+  50%      { box-shadow: 0 0 24px rgba($primary-color, 0.4); }
+}
+
+@keyframes toastIn {
+  from { transform: translateX(120%) scale(0.9); opacity: 0; }
+  to   { transform: translateX(0) scale(1); opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
 }

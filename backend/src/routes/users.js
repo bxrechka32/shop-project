@@ -89,6 +89,62 @@ router.delete('/:id', authMiddleware, requireRole('ADMIN'), async (req, res) => 
 
 /**
  * @swagger
+ * /users/logs/stats:
+ *   get:
+ *     summary: Get aggregated log statistics (admin only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ */
+router.get('/logs/stats', authMiddleware, requireRole('ADMIN'), async (req, res) => {
+  try {
+    const stats = await Log.aggregate([
+      {
+        $group: {
+          _id: { action: '$action', resource: '$resource' },
+          count: { $sum: 1 },
+          lastOccurrence: { $max: '$timestamp' },
+          uniqueUsers: { $addToSet: '$userId' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          action: '$_id.action',
+          resource: '$_id.resource',
+          count: 1,
+          lastOccurrence: 1,
+          uniqueUserCount: { $size: '$uniqueUsers' },
+        },
+      },
+      { $sort: { count: -1 } },
+      { $limit: 50 },
+    ]);
+
+    const dailyActivity = await Log.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$timestamp' } },
+          total: { $sum: 1 },
+          errors: {
+            $sum: {
+              $cond: [{ $gte: ['$details.statusCode', 400] }, 1, 0],
+            },
+          },
+        },
+      },
+      { $sort: { _id: -1 } },
+      { $limit: 30 },
+    ]);
+
+    res.json({ actionStats: stats, dailyActivity });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * @swagger
  * /users/logs:
  *   get:
  *     summary: Get action logs (admin only)

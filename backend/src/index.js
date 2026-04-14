@@ -17,6 +17,7 @@ const pushRoutes = require('./routes/push');
 const { connectMongo } = require('./config/mongodb');
 const { connectRedis } = require('./config/redis');
 const { connectRabbitMQ } = require('./config/rabbitmq');
+const { createApolloServer } = require('./config/graphql');
 
 const app = express();
 const server = http.createServer(app);
@@ -64,9 +65,14 @@ async function start() {
   await connectRedis();
   await connectRabbitMQ();
 
+  // GraphQL endpoint
+  const apolloMiddleware = await createApolloServer();
+  app.use('/graphql', express.json(), apolloMiddleware);
+
   server.listen(PORT, () => {
     console.log(`🚀 Backend running on port ${PORT}`);
     console.log(`📚 Swagger docs: http://localhost:${PORT}/api-docs`);
+    console.log(`🔮 GraphQL: http://localhost:${PORT}/graphql`);
   });
 }
 

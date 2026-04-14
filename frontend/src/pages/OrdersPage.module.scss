@@ -2,20 +2,42 @@
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
-.page { max-width: 800px; }
+.page {
+  max-width: 800px;
+  @include fade-in;
+}
 
 .title {
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: $spacing-xl;
+  @include gradient-text;
 }
 
-.list { display: flex; flex-direction: column; gap: $spacing-md; }
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  > * {
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) #{$i * 0.08}s both;
+      }
+    }
+  }
+}
 
 .order {
   @include card(true);
   overflow: hidden;
+  transition: transform $transition-base, box-shadow $transition-base, border-color $transition-base;
+
+  &:hover {
+    border-color: rgba($primary-color, 0.2);
+    box-shadow: $shadow-lg, 0 0 30px rgba($primary-color, 0.06);
+  }
 }
 
 .orderHeader {
@@ -24,6 +46,7 @@
   border-bottom: 1px solid $border-color;
   gap: $spacing-md;
   flex-wrap: wrap;
+  background: rgba($bg-secondary, 0.3);
 }
 
 .orderId {
@@ -41,7 +64,7 @@
   font-family: $font-display;
   font-size: 18px;
   font-weight: 700;
-  color: $primary-light;
+  @include gradient-text;
 }
 
 .items {
@@ -55,14 +78,23 @@
   display: flex;
   align-items: center;
   gap: $spacing-md;
+  padding: 6px 0;
+  transition: background $transition-fast;
+  border-radius: $radius-sm;
+
+  &:hover { background: rgba(255,255,255,0.02); }
 }
 
 .itemImg {
-  width: 48px; height: 48px;
+  width: 48px;
+  height: 48px;
   border-radius: $radius-sm;
   object-fit: cover;
   border: 1px solid $border-color;
   flex-shrink: 0;
+  transition: transform $transition-base;
+
+  &:hover { transform: scale(1.08); }
 }
 
 .itemInfo { display: flex; flex-direction: column; gap: 2px; }

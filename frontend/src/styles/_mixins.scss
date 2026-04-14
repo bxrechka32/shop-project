@@ -8,12 +8,14 @@
   justify-content: center;
   gap: $spacing-sm;
   font-family: $font-body;
-  font-weight: 500;
+  font-weight: 600;
   border: none;
   cursor: pointer;
   transition: all $transition-base;
   text-decoration: none;
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
 
   @if $size == 'sm' {
     padding: 8px 16px;
@@ -30,30 +32,43 @@
   }
 
   @if $variant == 'primary' {
-    background: $primary-color;
+    background: $gradient-primary;
+    background-size: 200% 200%;
     color: #fff;
-    &:hover { background: $primary-dark; transform: translateY(-1px); box-shadow: $shadow-glow; }
+    box-shadow: 0 2px 12px rgba(66, 133, 244, 0.3);
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(66, 133, 244, 0.4);
+      animation: gradientShift 3s ease infinite;
+    }
     &:active { transform: translateY(0); }
   } @else if $variant == 'accent' {
-    background: $accent-color;
+    background: $gradient-accent;
+    background-size: 200% 200%;
     color: #fff;
-    &:hover { background: $accent-dark; transform: translateY(-1px); box-shadow: $shadow-glow-accent; }
+    box-shadow: 0 2px 12px rgba(255, 107, 53, 0.3);
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+      animation: gradientShift 3s ease infinite;
+    }
   } @else if $variant == 'ghost' {
     background: transparent;
     color: $text-secondary;
     border: 1px solid $border-color;
-    &:hover { border-color: $primary-color; color: $primary-color; background: rgba($primary-color, 0.05); }
+    &:hover { border-color: $primary-color; color: $primary-color; background: rgba($primary-color, 0.06); }
   } @else if $variant == 'danger' {
-    background: rgba($error, 0.15);
+    background: rgba($error, 0.1);
     color: $error;
-    border: 1px solid rgba($error, 0.3);
-    &:hover { background: $error; color: #fff; }
+    border: 1px solid rgba($error, 0.2);
+    &:hover { background: $error; color: #fff; box-shadow: 0 4px 16px rgba($error, 0.3); }
   }
 
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
     transform: none !important;
+    animation: none !important;
   }
 }
 
@@ -81,15 +96,16 @@
   color: $text-primary;
   font-family: $font-body;
   font-size: 14px;
-  padding: 10px 14px;
-  transition: border-color $transition-fast, box-shadow $transition-fast;
+  padding: 12px 16px;
+  transition: all $transition-base;
   outline: none;
 
   &::placeholder { color: $text-muted; }
 
   &:focus {
     border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.12), 0 0 20px rgba($primary-color, 0.06);
+    background: rgba($bg-elevated, 0.8);
   }
 }
 
@@ -117,7 +133,47 @@
 // Scrollbar styling
 @mixin scrollbar {
   &::-webkit-scrollbar { width: 6px; height: 6px; }
-  &::-webkit-scrollbar-track { background: $bg-secondary; }
+  &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb { background: $border-light; border-radius: $radius-full; }
   &::-webkit-scrollbar-thumb:hover { background: $text-muted; }
+}
+
+// Glassmorphism
+@mixin glass {
+  background: rgba($bg-card, 0.55);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+// Fade in from below
+@mixin fade-in($delay: 0s) {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) #{$delay} both;
+}
+
+// Hover lift effect
+@mixin hover-lift {
+  transition: transform $transition-base, box-shadow $transition-base;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: $shadow-lg, $shadow-glow;
+  }
+}
+
+// Gradient text
+@mixin gradient-text {
+  background: $gradient-primary;
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite;
+}
+
+// Shimmer skeleton
+@mixin shimmer {
+  background: linear-gradient(90deg, $bg-elevated 25%, rgba($border-light, 0.4) 50%, $bg-elevated 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease infinite;
+  border-radius: $radius-sm;
 }

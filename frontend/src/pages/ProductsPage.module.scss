@@ -2,12 +2,30 @@
 @use '../styles/variables' as *;
 @use '../styles/mixins' as *;
 
-.page { padding-bottom: $spacing-3xl; }
+.page {
+  padding-bottom: $spacing-3xl;
+  @include fade-in;
+}
 
 .hero {
   margin-bottom: $spacing-2xl;
-  padding-bottom: $spacing-xl;
+  padding: $spacing-2xl 0 $spacing-xl;
   border-bottom: 1px solid $border-color;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: $gradient-hero;
+    opacity: 0.5;
+    border-radius: 0 0 $radius-xl $radius-xl;
+    filter: blur(60px);
+    z-index: -1;
+    animation: gradientShift 8s ease infinite;
+    background-size: 200% 200%;
+  }
 }
 
 .heroTitle {
@@ -15,13 +33,17 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   margin-bottom: 8px;
+  @include fade-in(0.1s);
 }
 
-.accent { color: $primary-color; }
+.accent {
+  @include gradient-text;
+}
 
 .heroSub {
   font-size: 15px;
   color: $text-muted;
+  @include fade-in(0.2s);
 }
 
 .toolbar {
@@ -29,6 +51,7 @@
   gap: $spacing-md;
   margin-bottom: $spacing-xl;
   flex-wrap: wrap;
+  @include fade-in(0.3s);
 }
 
 .searchWrap {
@@ -46,11 +69,19 @@
   color: $text-muted;
   font-size: 18px;
   pointer-events: none;
+  transition: color $transition-base;
 }
 
 .search {
   @include input;
   padding-left: 42px;
+  background: rgba($bg-elevated, 0.6);
+  backdrop-filter: blur(12px);
+
+  &:focus ~ .searchIcon,
+  &:focus + .searchIcon {
+    color: $primary-color;
+  }
 }
 
 .toolbarRight {
@@ -62,6 +93,11 @@
 .cartIndicator {
   @include button('ghost', 'sm');
   font-size: 14px;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .addBtn {
@@ -74,4 +110,13 @@
   gap: $spacing-lg;
 
   @include respond-to('sm') { grid-template-columns: 1fr; }
+
+  // Staggered entrance for grid children
+  > * {
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) {
+        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) #{$i * 0.06}s both;
+      }
+    }
+  }
 }

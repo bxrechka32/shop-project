@@ -7,22 +7,28 @@ $primary-light: #7eb3ff;
 $accent-color: #ff6b35;
 $accent-dark: #e5542a;
 
-$bg-primary: #0d0f14;
-$bg-secondary: #141720;
-$bg-card: #1a1e2a;
-$bg-elevated: #222636;
+$bg-primary: #0a0c10;
+$bg-secondary: #111318;
+$bg-card: #161923;
+$bg-elevated: #1e2130;
 
 $text-primary: #f0f2ff;
 $text-secondary: #9aa0bc;
 $text-muted: #5c6280;
 
-$border-color: #2a2f42;
-$border-light: #343a50;
+$border-color: #232840;
+$border-light: #2e3450;
 
 $success: #22c55e;
 $warning: #f59e0b;
 $error: #ef4444;
 $info: #3b82f6;
+
+// Gradients
+$gradient-primary: linear-gradient(135deg, #4285f4, #7c4dff, #ff6b35);
+$gradient-accent: linear-gradient(135deg, #ff6b35, #ff3d7f);
+$gradient-card: linear-gradient(135deg, rgba(66, 133, 244, 0.08), rgba(124, 77, 255, 0.04));
+$gradient-hero: linear-gradient(135deg, rgba(66, 133, 244, 0.15), rgba(255, 107, 53, 0.08), rgba(124, 77, 255, 0.12));
 
 // Typography
 $font-display: 'Syne', sans-serif;
@@ -50,11 +56,13 @@ $shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
 $shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
 $shadow-glow: 0 0 20px rgba(66, 133, 244, 0.25);
 $shadow-glow-accent: 0 0 20px rgba(255, 107, 53, 0.25);
+$shadow-glow-lg: 0 0 60px rgba(66, 133, 244, 0.15), 0 0 120px rgba(124, 77, 255, 0.08);
 
 // Transitions
 $transition-fast: 0.15s ease;
-$transition-base: 0.25s ease;
-$transition-slow: 0.4s ease;
+$transition-base: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
 // Breakpoints
 $bp-sm: 640px;

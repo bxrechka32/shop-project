@@ -34,35 +34,41 @@ router.post('/', authMiddleware, logAction('CREATE', 'order'), async (req, res) 
     const { items } = req.body;
     if (!items || !items.length) return res.status(400).json({ error: 'No items' });
 
-    // Fetch products
-    const productIds = items.map((i) => i.productId);
-    const products = await prisma.product.findMany({ where: { id: { in: productIds } } });
-    const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
+    // Use Prisma transaction for atomic order creation
+    const order = await prisma.$transaction(async (tx) => {
+      // Fetch and validate products within transaction
+      const productIds = items.map((i) => i.productId);
+      const products = await tx.product.findMany({ where: { id: { in: productIds } } });
+      const productMap = Object.fromEntries(products.map((p) => [p.id, p]));
 
-    let total = 0;
-    const orderItems = items.map((item) => {
-      const product = productMap[item.productId];
-      if (!product) throw new Error(`Product ${item.productId} not found`);
-      const price = product.price * item.quantity;
-      total += price;
-      return { productId: item.productId, quantity: item.quantity, price };
+      let total = 0;
+      const orderItems = items.map((item) => {
+        const product = productMap[item.productId];
+        if (!product) throw new Error(`Product ${item.productId} not found`);
+        const price = product.price * item.quantity;
+        total += price;
+        return { productId: item.productId, quantity: item.quantity, price };
+      });
+
+      // Create order with items atomically
+      const newOrder = await tx.order.create({
+        data: {
+          userId: req.user.id,
+          total,
+          items: { create: orderItems },
+        },
+        include: { items: { include: { product: true } }, user: { select: { email: true } } },
+      });
+
+      return newOrder;
     });
 
-    const order = await prisma.order.create({
-      data: {
-        userId: req.user.id,
-        total,
-        items: { create: orderItems },
-      },
-      include: { items: { include: { product: true } }, user: { select: { email: true } } },
-    });
-
-    // Send to RabbitMQ
+    // Send to RabbitMQ (outside transaction)
     const ch = getChannel();
     if (ch) {
       ch.sendToQueue(
         'orders',
-        Buffer.from(JSON.stringify({ id: order.id, total, userEmail: order.user.email })),
+        Buffer.from(JSON.stringify({ id: order.id, total: order.total, userEmail: order.user.email })),
         { persistent: true }
       );
     }

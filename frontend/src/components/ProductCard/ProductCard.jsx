@@ -44,6 +44,7 @@ export default function ProductCard({ product, onDelete, onEdit, onAddToCart }) 
           loading="lazy"
         />
         <div className={styles.imageOverlay} />
+        <div className={styles.shine} />
         <span className={styles.priceBadge}>${product.price.toFixed(2)}</span>
       </div>
 

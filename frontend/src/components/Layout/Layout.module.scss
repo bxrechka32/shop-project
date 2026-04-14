@@ -12,10 +12,21 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba($bg-secondary, 0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid $border-color;
+  @include glass;
+  border-bottom: 1px solid rgba($border-color, 0.6);
   height: 68px;
+  transition: box-shadow $transition-base, background $transition-base;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($primary-color, 0.3), rgba($accent-color, 0.2), transparent);
+    opacity: 0.6;
+  }
 }
 
 .headerInner {
@@ -33,14 +44,20 @@
   color: $text-primary;
   text-decoration: none;
   letter-spacing: -0.02em;
+  transition: all $transition-base;
 
-  &:hover { color: $primary-color; }
+  &:hover {
+    color: $primary-color;
+    .logoIcon { transform: rotate(-12deg) scale(1.15); }
+  }
 }
 
 .logoIcon {
   font-size: 22px;
   color: $primary-color;
   line-height: 1;
+  transition: transform $transition-spring;
+  filter: drop-shadow(0 0 8px rgba($primary-color, 0.4));
 }
 
 .nav {
@@ -57,11 +74,34 @@
   font-size: 14px;
   font-weight: 500;
   color: $text-secondary;
-  transition: all $transition-fast;
+  transition: all $transition-base;
   text-decoration: none;
+  position: relative;
 
-  &:hover { color: $text-primary; background: rgba(255,255,255,0.05); }
-  &.active { color: $primary-color; background: rgba($primary-color, 0.1); }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: $gradient-primary;
+    border-radius: $radius-full;
+    transition: all $transition-base;
+    transform: translateX(-50%);
+  }
+
+  &:hover {
+    color: $text-primary;
+    background: rgba(255,255,255,0.05);
+    &::after { width: 60%; }
+  }
+
+  &.active {
+    color: $primary-color;
+    background: rgba($primary-color, 0.1);
+    &::after { width: 60%; }
+  }
 }
 
 .actions {
@@ -77,9 +117,13 @@
   padding: 6px 12px;
   border-radius: $radius-md;
   text-decoration: none;
-  transition: background $transition-fast;
+  transition: all $transition-base;
+  border: 1px solid transparent;
 
-  &:hover { background: rgba(255,255,255,0.05); }
+  &:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba($primary-color, 0.15);
+  }
 }
 
 .userName {
@@ -107,4 +151,15 @@
   text-align: center;
   color: $text-muted;
   font-size: 13px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($primary-color, 0.2), rgba($accent-color, 0.15), transparent);
+  }
 }
