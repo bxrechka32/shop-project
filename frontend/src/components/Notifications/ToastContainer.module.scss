@@ -17,18 +17,17 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  padding: 12px 16px;
-  @include glass;
+  padding: 14px 18px;
+  @include glass(0.65);
   border-radius: $radius-md;
-  box-shadow: $shadow-lg, 0 0 30px rgba(0,0,0,0.2);
-  max-width: 340px;
+  box-shadow: $shadow-lg, 0 0 40px rgba(0,0,0,0.25);
+  max-width: 360px;
   pointer-events: all;
-  animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: toastSlideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   font-size: 14px;
   position: relative;
   overflow: hidden;
 
-  // Progress bar at bottom
   &::after {
     content: '';
     position: absolute;
@@ -41,20 +40,20 @@
 
   &.success {
     border-left: 3px solid $success;
-    .icon { color: $success; filter: drop-shadow(0 0 6px rgba($success, 0.4)); }
-    &::after { background: $success; }
+    .icon { color: $success; filter: drop-shadow(0 0 8px rgba($success, 0.5)); }
+    &::after { background: linear-gradient(90deg, $success, rgba($success, 0.3)); }
   }
 
   &.error {
     border-left: 3px solid $error;
-    .icon { color: $error; filter: drop-shadow(0 0 6px rgba($error, 0.4)); }
-    &::after { background: $error; }
+    .icon { color: $error; filter: drop-shadow(0 0 8px rgba($error, 0.5)); }
+    &::after { background: linear-gradient(90deg, $error, rgba($error, 0.3)); }
   }
 
   &.info {
     border-left: 3px solid $primary-color;
-    .icon { color: $primary-color; filter: drop-shadow(0 0 6px rgba($primary-color, 0.4)); }
-    &::after { background: $primary-color; }
+    .icon { color: $primary-color; filter: drop-shadow(0 0 8px rgba($primary-color, 0.5)); }
+    &::after { background: linear-gradient(90deg, $primary-color, rgba($primary-color, 0.3)); }
   }
 }
 

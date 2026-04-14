@@ -10,14 +10,15 @@
   position: relative;
   transition: transform $transition-base, box-shadow $transition-base, border-color $transition-base;
 
-  // Animated border gradient on hover
+  // Animated gradient border
   &::before {
     content: '';
     position: absolute;
     inset: -1px;
     border-radius: $radius-lg;
     padding: 1px;
-    background: linear-gradient(135deg, transparent 40%, rgba($primary-color, 0.4), rgba($accent-color, 0.3));
+    background: linear-gradient(135deg, transparent 30%, rgba($primary-color, 0.5), rgba($secondary-color, 0.3), rgba($accent-color, 0.3));
+    background-size: 300% 300%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -29,14 +30,18 @@
   }
 
   &:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: $shadow-lg, 0 0 40px rgba($primary-color, 0.12), 0 0 80px rgba($primary-color, 0.04);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: $shadow-lg, 0 0 50px rgba($primary-color, 0.12), 0 0 100px rgba($secondary-color, 0.05);
     border-color: rgba($primary-color, 0.3);
 
-    &::before { opacity: 1; }
-    .image { transform: scale(1.06); }
-    .imageOverlay { opacity: 0.3; }
+    &::before {
+      opacity: 1;
+      animation: gradientShift 3s ease infinite;
+    }
+    .image { transform: scale(1.08); }
+    .imageOverlay { opacity: 0.25; }
     .shine { transform: translateX(200%); }
+    .name { color: $primary-light; }
   }
 }
 
@@ -47,14 +52,13 @@
   background: $bg-elevated;
 }
 
-// Shine sweep effect
 .shine {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 55%, transparent 60%);
+  background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.04) 58%, transparent 62%);
   transform: translateX(-200%);
-  transition: transform 0.7s ease;
+  transition: transform 0.8s ease;
   pointer-events: none;
 }
 
@@ -68,7 +72,7 @@
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, $bg-card 0%, transparent 60%);
+  background: linear-gradient(to top, $bg-card 0%, transparent 50%);
   opacity: 0.6;
   transition: opacity $transition-base;
 }
@@ -77,15 +81,16 @@
   position: absolute;
   top: $spacing-md;
   right: $spacing-md;
-  @include glass;
+  @include glass(0.6);
   color: $primary-light;
   font-family: $font-display;
   font-weight: 700;
   font-size: 16px;
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: $radius-full;
   z-index: 3;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
 }
 
 .body {
@@ -102,7 +107,7 @@
   font-weight: 700;
   color: $text-primary;
   @include truncate(2);
-  transition: color $transition-fast;
+  transition: color $transition-base;
 }
 
 .description {

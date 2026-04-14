@@ -12,11 +12,12 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  @include glass;
-  border-bottom: 1px solid rgba($border-color, 0.6);
+  @include glass(0.6);
+  border-bottom: 1px solid rgba($border-color, 0.5);
   height: 68px;
   transition: box-shadow $transition-base, background $transition-base;
 
+  // Animated gradient bottom border
   &::after {
     content: '';
     position: absolute;
@@ -24,8 +25,9 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba($primary-color, 0.3), rgba($accent-color, 0.2), transparent);
-    opacity: 0.6;
+    background: linear-gradient(90deg, transparent 5%, rgba($primary-color, 0.4) 30%, rgba($secondary-color, 0.3) 50%, rgba($accent-color, 0.2) 70%, transparent 95%);
+    background-size: 200% 100%;
+    animation: gradientShift 8s ease infinite;
   }
 }
 
@@ -48,15 +50,18 @@
 
   &:hover {
     color: $primary-color;
-    .logoIcon { transform: rotate(-12deg) scale(1.15); }
+    .logoIcon {
+      transform: rotate(-12deg) scale(1.2);
+      filter: drop-shadow(0 0 12px rgba($primary-color, 0.6));
+    }
   }
 }
 
 .logoIcon {
-  font-size: 22px;
+  font-size: 24px;
   color: $primary-color;
   line-height: 1;
-  transition: transform $transition-spring;
+  transition: all $transition-spring;
   filter: drop-shadow(0 0 8px rgba($primary-color, 0.4));
 }
 
@@ -93,14 +98,15 @@
 
   &:hover {
     color: $text-primary;
-    background: rgba(255,255,255,0.05);
-    &::after { width: 60%; }
+    background: rgba(255,255,255,0.04);
+    &::after { width: 70%; }
   }
 
   &.active {
     color: $primary-color;
-    background: rgba($primary-color, 0.1);
-    &::after { width: 60%; }
+    background: rgba($primary-color, 0.08);
+    text-shadow: 0 0 16px rgba($primary-color, 0.3);
+    &::after { width: 70%; }
   }
 }
 
@@ -121,8 +127,9 @@
   border: 1px solid transparent;
 
   &:hover {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.04);
     border-color: rgba($primary-color, 0.15);
+    box-shadow: 0 0 16px rgba($primary-color, 0.06);
   }
 }
 
@@ -147,7 +154,7 @@
 
 .footer {
   border-top: 1px solid $border-color;
-  padding: $spacing-lg 0;
+  padding: $spacing-xl 0;
   text-align: center;
   color: $text-muted;
   font-size: 13px;
@@ -160,6 +167,6 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba($primary-color, 0.2), rgba($accent-color, 0.15), transparent);
+    background: linear-gradient(90deg, transparent, rgba($primary-color, 0.2), rgba($secondary-color, 0.15), transparent);
   }
 }

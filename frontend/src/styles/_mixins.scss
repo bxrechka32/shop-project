@@ -35,10 +35,10 @@
     background: $gradient-primary;
     background-size: 200% 200%;
     color: #fff;
-    box-shadow: 0 2px 12px rgba(66, 133, 244, 0.3);
+    box-shadow: 0 2px 16px rgba(79, 143, 255, 0.35);
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(66, 133, 244, 0.4);
+      box-shadow: 0 4px 24px rgba(79, 143, 255, 0.5), 0 0 48px rgba(168, 85, 247, 0.15);
       animation: gradientShift 3s ease infinite;
     }
     &:active { transform: translateY(0); }
@@ -46,22 +46,22 @@
     background: $gradient-accent;
     background-size: 200% 200%;
     color: #fff;
-    box-shadow: 0 2px 12px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 2px 16px rgba(255, 107, 53, 0.35);
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+      box-shadow: 0 4px 24px rgba(255, 107, 53, 0.5);
       animation: gradientShift 3s ease infinite;
     }
   } @else if $variant == 'ghost' {
     background: transparent;
     color: $text-secondary;
     border: 1px solid $border-color;
-    &:hover { border-color: $primary-color; color: $primary-color; background: rgba($primary-color, 0.06); }
+    &:hover { border-color: $primary-color; color: $primary-color; background: rgba($primary-color, 0.06); box-shadow: 0 0 16px rgba($primary-color, 0.1); }
   } @else if $variant == 'danger' {
     background: rgba($error, 0.1);
     color: $error;
     border: 1px solid rgba($error, 0.2);
-    &:hover { background: $error; color: #fff; box-shadow: 0 4px 16px rgba($error, 0.3); }
+    &:hover { background: $error; color: #fff; box-shadow: 0 4px 20px rgba($error, 0.35); }
   }
 
   &:disabled {
@@ -74,7 +74,7 @@
 
 // Card mixin
 @mixin card($elevated: false) {
-  background: $bg-card;
+  background: $gradient-card, $bg-card;
   border: 1px solid $border-color;
   border-radius: $radius-lg;
   @if $elevated {
@@ -82,7 +82,7 @@
   }
   transition: border-color $transition-base, box-shadow $transition-base, transform $transition-base;
   &:hover {
-    border-color: $border-light;
+    border-color: rgba($primary-color, 0.2);
     box-shadow: $shadow-lg;
   }
 }
@@ -90,7 +90,7 @@
 // Input mixin
 @mixin input {
   width: 100%;
-  background: $bg-elevated;
+  background: rgba($bg-elevated, 0.7);
   border: 1px solid $border-color;
   border-radius: $radius-md;
   color: $text-primary;
@@ -104,8 +104,8 @@
 
   &:focus {
     border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.12), 0 0 20px rgba($primary-color, 0.06);
-    background: rgba($bg-elevated, 0.8);
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.12), 0 0 24px rgba($primary-color, 0.08);
+    background: rgba($bg-elevated, 0.9);
   }
 }
 
@@ -138,11 +138,11 @@
   &::-webkit-scrollbar-thumb:hover { background: $text-muted; }
 }
 
-// Glassmorphism
-@mixin glass {
-  background: rgba($bg-card, 0.55);
-  backdrop-filter: blur(24px) saturate(1.4);
-  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+// Glassmorphism — enhanced
+@mixin glass($opacity: 0.5) {
+  background: rgba($bg-card, $opacity);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -170,10 +170,49 @@
   animation: gradientShift 6s ease infinite;
 }
 
+// Neon text glow
+@mixin neon-text($color: $primary-color) {
+  color: $color;
+  text-shadow: 0 0 8px rgba($color, 0.5), 0 0 24px rgba($color, 0.2);
+}
+
 // Shimmer skeleton
 @mixin shimmer {
   background: linear-gradient(90deg, $bg-elevated 25%, rgba($border-light, 0.4) 50%, $bg-elevated 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease infinite;
   border-radius: $radius-sm;
+}
+
+// Animated gradient border
+@mixin gradient-border($radius: $radius-xl) {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: $radius;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba($primary-color, 0.35), transparent 40%, transparent 60%, rgba($secondary-color, 0.25));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: opacity $transition-base;
+  }
+}
+
+// Section glow background
+@mixin section-glow($color: $primary-color, $size: 400px) {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    width: $size;
+    height: $size;
+    background: radial-gradient(circle, rgba($color, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
 }

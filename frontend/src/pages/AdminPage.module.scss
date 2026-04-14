@@ -7,9 +7,9 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   margin-bottom: $spacing-xl;
   @include gradient-text;
 }
@@ -38,11 +38,14 @@
   transition: all $transition-base;
   position: relative;
 
-  &:hover { color: $text-primary; background: rgba(255,255,255,0.03); }
+  &:hover {
+    color: $text-primary;
+    background: rgba(255,255,255,0.03);
+  }
 
   &.active {
     color: $primary-color;
-    border-bottom-color: $primary-color;
+    text-shadow: 0 0 12px rgba($primary-color, 0.3);
 
     &::after {
       content: '';
@@ -54,6 +57,7 @@
       background: $gradient-primary;
       border-radius: $radius-full;
       animation: tabSlide 0.3s ease;
+      box-shadow: 0 0 8px rgba($primary-color, 0.4);
     }
   }
 }
@@ -76,33 +80,35 @@
 
   th {
     text-align: left;
-    padding: 10px 16px;
+    padding: 12px 16px;
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: $text-muted;
     border-bottom: 1px solid $border-color;
-    background: rgba($bg-secondary, 0.5);
+    background: rgba($bg-secondary, 0.6);
   }
 
   td {
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba($border-color, 0.5);
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba($border-color, 0.4);
     vertical-align: middle;
   }
 
   tr {
-    transition: background $transition-fast;
+    transition: all $transition-fast;
 
-    // Staggered row entrance
     @for $i from 1 through 20 {
       &:nth-child(#{$i}) {
         animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) #{$i * 0.03}s both;
       }
     }
 
-    &:hover td { background: rgba($primary-color, 0.03); }
+    &:hover td {
+      background: rgba($primary-color, 0.04);
+      border-bottom-color: rgba($primary-color, 0.1);
+    }
   }
 }
 
@@ -112,7 +118,7 @@
   color: $primary-light;
   font-family: $font-display;
   font-weight: 600;
-  text-shadow: 0 0 20px rgba($primary-color, 0.2);
+  @include neon-text($primary-light);
 }
 
 .select {
@@ -128,7 +134,7 @@
 .logs {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   @include scrollbar;
 }
 
@@ -136,18 +142,19 @@
   display: flex;
   align-items: center;
   gap: $spacing-md;
-  padding: 10px 16px;
-  background: rgba($bg-card, 0.6);
-  backdrop-filter: blur(8px);
+  padding: 12px 16px;
+  @include glass(0.3);
   border: 1px solid $border-color;
   border-radius: $radius-md;
   font-size: 13px;
   flex-wrap: wrap;
-  transition: all $transition-fast;
+  transition: all $transition-base;
 
   &:hover {
-    border-color: rgba($primary-color, 0.2);
-    background: rgba($bg-card, 0.8);
+    border-color: rgba($primary-color, 0.25);
+    background: rgba($bg-card, 0.7);
+    box-shadow: 0 2px 16px rgba($primary-color, 0.05);
+    transform: translateX(4px);
   }
 
   @for $i from 1 through 20 {
@@ -162,9 +169,14 @@
   font-weight: 700;
   color: $accent-color;
   min-width: 70px;
-  text-shadow: 0 0 12px rgba($accent-color, 0.2);
+  text-shadow: 0 0 12px rgba($accent-color, 0.25);
 }
 
-.logResource { color: $primary-light; min-width: 80px; }
+.logResource {
+  color: $primary-light;
+  min-width: 80px;
+  text-shadow: 0 0 8px rgba($primary-color, 0.15);
+}
+
 .logUser { color: $text-secondary; flex: 1; }
 .logTime { color: $text-muted; font-size: 12px; white-space: nowrap; }

@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const { ApolloServerPluginLandingPageLocalDefault } = require('@apollo/server/plugin/landingPage/default');
 const prisma = require('./prisma');
 
 const typeDefs = `#graphql
@@ -62,7 +63,11 @@ const resolvers = {
 };
 
 async function createApolloServer() {
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
+  });
   await server.start();
   return expressMiddleware(server, {
     context: async ({ req }) => ({ req }),

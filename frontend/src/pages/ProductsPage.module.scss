@@ -9,31 +9,46 @@
 
 .hero {
   margin-bottom: $spacing-2xl;
-  padding: $spacing-2xl 0 $spacing-xl;
+  padding: $spacing-3xl 0 $spacing-xl;
   border-bottom: 1px solid $border-color;
   position: relative;
   overflow: hidden;
 
+  // Animated gradient glow orbs
   &::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: $gradient-hero;
-    opacity: 0.5;
-    border-radius: 0 0 $radius-xl $radius-xl;
-    filter: blur(60px);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba($primary-color, 0.15) 0%, transparent 60%);
+    top: -200px;
+    left: -100px;
+    filter: blur(40px);
     z-index: -1;
-    animation: gradientShift 8s ease infinite;
-    background-size: 200% 200%;
+    animation: float 10s ease-in-out infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba($secondary-color, 0.1) 0%, transparent 60%);
+    top: -150px;
+    right: -100px;
+    filter: blur(50px);
+    z-index: -1;
+    animation: float 8s ease-in-out infinite reverse;
   }
 }
 
 .heroTitle {
-  font-size: clamp(28px, 5vw, 48px);
+  font-size: clamp(32px, 5vw, 56px);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: 8px;
+  letter-spacing: -0.04em;
+  margin-bottom: 12px;
   @include fade-in(0.1s);
+  line-height: 1.1;
 }
 
 .accent {
@@ -41,9 +56,10 @@
 }
 
 .heroSub {
-  font-size: 15px;
-  color: $text-muted;
+  font-size: 16px;
+  color: $text-secondary;
   @include fade-in(0.2s);
+  max-width: 500px;
 }
 
 .toolbar {
@@ -58,7 +74,7 @@
   position: relative;
   flex: 1;
   min-width: 200px;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .searchIcon {
@@ -69,18 +85,22 @@
   color: $text-muted;
   font-size: 18px;
   pointer-events: none;
-  transition: color $transition-base;
+  transition: all $transition-base;
 }
 
 .search {
   @include input;
   padding-left: 42px;
-  background: rgba($bg-elevated, 0.6);
-  backdrop-filter: blur(12px);
+  @include glass(0.4);
+  border-color: rgba($border-color, 0.6);
 
-  &:focus ~ .searchIcon,
-  &:focus + .searchIcon {
-    color: $primary-color;
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1), 0 0 32px rgba($primary-color, 0.08);
+    & + .searchIcon,
+    & ~ .searchIcon {
+      color: $primary-color;
+      filter: drop-shadow(0 0 4px rgba($primary-color, 0.4));
+    }
   }
 }
 
@@ -96,7 +116,7 @@
   position: relative;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
   }
 }
 
@@ -106,12 +126,11 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: $spacing-lg;
 
   @include respond-to('sm') { grid-template-columns: 1fr; }
 
-  // Staggered entrance for grid children
   > * {
     @for $i from 1 through 12 {
       &:nth-child(#{$i}) {

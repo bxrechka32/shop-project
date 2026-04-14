@@ -8,9 +8,9 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   margin-bottom: $spacing-xl;
   @include gradient-text;
 }
@@ -32,21 +32,26 @@
 .order {
   @include card(true);
   overflow: hidden;
-  transition: transform $transition-base, box-shadow $transition-base, border-color $transition-base;
+  transition: all $transition-base;
+  @include gradient-border($radius-lg);
+
+  &::before { opacity: 0; }
 
   &:hover {
     border-color: rgba($primary-color, 0.2);
-    box-shadow: $shadow-lg, 0 0 30px rgba($primary-color, 0.06);
+    box-shadow: $shadow-lg, 0 0 40px rgba($primary-color, 0.06);
+    transform: translateY(-2px);
+    &::before { opacity: 1; }
   }
 }
 
 .orderHeader {
   @include flex-between;
   padding: $spacing-md $spacing-lg;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid rgba($border-color, 0.6);
   gap: $spacing-md;
   flex-wrap: wrap;
-  background: rgba($bg-secondary, 0.3);
+  background: rgba($bg-secondary, 0.4);
 }
 
 .orderId {
@@ -78,23 +83,28 @@
   display: flex;
   align-items: center;
   gap: $spacing-md;
-  padding: 6px 0;
-  transition: background $transition-fast;
-  border-radius: $radius-sm;
+  padding: 8px;
+  transition: all $transition-fast;
+  border-radius: $radius-md;
 
-  &:hover { background: rgba(255,255,255,0.02); }
+  &:hover {
+    background: rgba($primary-color, 0.03);
+  }
 }
 
 .itemImg {
-  width: 48px;
-  height: 48px;
-  border-radius: $radius-sm;
+  width: 52px;
+  height: 52px;
+  border-radius: $radius-md;
   object-fit: cover;
   border: 1px solid $border-color;
   flex-shrink: 0;
-  transition: transform $transition-base;
+  transition: all $transition-base;
 
-  &:hover { transform: scale(1.08); }
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
 }
 
 .itemInfo { display: flex; flex-direction: column; gap: 2px; }
